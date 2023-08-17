@@ -1,0 +1,63 @@
+.main-container{
+    display: flex;
+    padding: 10px;
+    box-sizing: border-box;
+    margin: auto;
+    min-height:500px;
+    justify-content: center;
+}
+.task-container{
+    width: 70%;
+    padding: 10px;
+    margin: auto;
+}
+.tasks-headings{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+    border: 1px solid rgb(158, 158, 158);
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #82F3D6;
+    
+}
+.tasks-container{
+    border-radius: 5px;
+}
+.del-btn{
+    background-color: red;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 3px;
+}
+.status-btn-container{
+    width: 500px;
+    margin: auto;
+    text-align: center;
+}
+.btn-status{
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid rgb(158, 158, 158);
+    background-color: #82F3D6;
+    margin: 0px 3px;
+}
+.tasks{
+    position: relative;
+    display: flex;
+    margin: auto;
+    justify-content: space-between;
+    border: 1px solid rgb(158, 158, 158);
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #82F3D6;   
+}
+.tasks-headings div{
+    width: 100px;
+}
+.tasks div{
+    width: 100px;
+    word-wrap: break-word;
+}
