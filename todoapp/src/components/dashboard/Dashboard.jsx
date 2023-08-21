@@ -19,6 +19,10 @@ const Dashboard = () => {
         const uptasks = tasks.filter(task=>{
             return task._id !== id;
         })
+        const filtasks = filterTasks.filter(task=>{
+            return task._id !== id;
+        })
+        setfiltertasks(filtasks);
         settasks(uptasks);
     }
     const filterHandler = async (e)=>{
@@ -26,7 +30,6 @@ const Dashboard = () => {
         if(statusCode === 'all'){
             setfiltertasks(tasks);
         }else if(statusCode === "pending"){
-            console.log(tasks[0])
             const newArr = tasks.filter(elem=>{return elem.status === "pending"});
             setfiltertasks(newArr);
         }else{
@@ -36,6 +39,7 @@ const Dashboard = () => {
     }
     const statusHandler = async (event)=>{
         const id = event.target.value;
+        console.log(id);
         await fetch('/api/status',{
             method:"POST",
             body:JSON.stringify({
@@ -45,10 +49,23 @@ const Dashboard = () => {
                 "Content-type": "application/json; charset=UTF-8"
             }
         })
-
+        let updatedArray = filterTasks.map(obj => {
+            if (obj._id === id) {
+              return { ...obj, status: "done" };
+            }
+            return obj;
+          });
+          let updatedtask = tasks.map(obj => {
+            if (obj._id === id) {
+              return { ...obj, status: "done" };
+            }
+            return obj;
+          });
+        settasks(updatedtask);
+        setfiltertasks(updatedArray);
+        
     }
     const showtasks = async () => {
-        
         const res = await fetch("/api/gettasks", {
             method: "POST",
             body: JSON.stringify(
@@ -64,7 +81,7 @@ const Dashboard = () => {
     }
     useEffect(() => {
          showtasks();
-    }, [tasks]);
+    }, []);
 
     return (
         <div className="main-task-container">
@@ -96,7 +113,7 @@ const Dashboard = () => {
                     </div>
                 </div>
                 {filterTasks.map(elem => { // eslint-disable-next-line react/jsx-key
-            return <div className="tasks">
+            return <div className="tasks" key={elem._id}>
                 <div> {
                     elem.desc
                 } </div>

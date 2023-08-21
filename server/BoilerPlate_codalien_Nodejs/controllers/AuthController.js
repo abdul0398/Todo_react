@@ -1,5 +1,5 @@
 const AuthServices = require("../services/AuthServices");
-exports = module.exports = class DemoController {
+exports = module.exports = class Authcontroller {
 
     constructor(router) { // config routes
         router.post('/api/register', this.signupAuth);
@@ -16,6 +16,7 @@ exports = module.exports = class DemoController {
         router.post('/api/deluser', this.delUser);
         router.get('/api/verifyUser/:token', this.verifyUser);
         router.post('/api/resend', this.resend);
+        router.get('/checkstatus', (req,res)=>{res.json(req.user)});
 
     }
     async signupAuth(req, res) {

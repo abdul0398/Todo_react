@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const Mailservice = require('./MailServices.js');
 class AuthServices {
     static async signUp(req, res) {
         const {name, email, password} = req.body;
@@ -18,7 +19,7 @@ class AuthServices {
         }
     };
     static logOut(req, res) {
-        req.logOut();
+        req.logout();
         res.status(200).json("logout successfully");
     }
     static async login(req, res) {
@@ -27,7 +28,7 @@ class AuthServices {
         if (! user) 
             return res.status(403).json("Invalid email address");
         
-        bcrypt.compare(password, hash).then((bool) => {
+        bcrypt.compare(password, user.password).then((bool) => {
             if (bool) {
                 req.loginUser(user);
                 delete req.user.password;
@@ -98,6 +99,8 @@ class AuthServices {
     }
     static async resend(req, res) {
         const email = req.body.email;
+        
+        // await Mailservice.resend(email);
         const token = jwt.sign({
             data: email
         }, 'aksdbkasbdkajsbdkajdb', {expiresIn: '1h'});
@@ -147,6 +150,8 @@ class AuthServices {
         if (existingUser) {
             return res.status(400).json("user already Invited");
         } else {
+            // console.log(Mailservice.assignUser);
+            // await Mailservice.assignUser(email);
             const token = jwt.sign({
                 data: email
             }, 'aksdbkasbdkajsbdkajdb', {expiresIn: '1h'});
@@ -182,7 +187,6 @@ class AuthServices {
     static async getusers(req, res) {
         const email = req.user.email;
         const user = await _db.User.findOne({email: email}).populate('users');
-        console.log(user);
         res.json({users: user.users});
     }
     static async delUser(req, res) {
